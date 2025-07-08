@@ -1,0 +1,17 @@
+openai
+numpy
+scikit-learn
+matplotlib
+python-dotenv
+tiktoken
+qdrant-client 
+pymongo 
+google-genai
+requests
+pandas
+aiohttp 
+beautifulsoup4 
+asyncio
+uvicorn
+fastapi
+python-multipart
