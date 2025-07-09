@@ -6,6 +6,11 @@ import logging
 import numpy as np
 from sem_ent import detect_confabulation
 
+# Import OpenAI client dependencies
+from clients.openai_client import OpenAIClient
+from models.token_tracker import TokenTracker
+from config.settings import OPENAI_CHAT_MODEL, OPENAI_MINI_MODEL
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -17,10 +22,21 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Request model
+# Request models
 class ConfabulationRequest(BaseModel):
     query: str
     entropy_threshold: float = 0.3
+
+class GenerateRequest(BaseModel):
+    query: str
+    model: Optional[str] = OPENAI_CHAT_MODEL
+    temperature: Optional[float] = 0.7
+    max_tokens: Optional[int] = None
+
+class DeepResearchRequest(BaseModel):
+    query: str
+    model: Optional[str] = "o4-mini-deep-research"
+    output_file: Optional[str] = None
 
 # Response models
 class ConfabulationSummary(BaseModel):
@@ -39,6 +55,15 @@ class ConfabulationSummary(BaseModel):
 class ConfabulationResponse(BaseModel):
     success: bool
     summary: Optional[ConfabulationSummary] = None
+    error: Optional[str] = None
+
+class GenerateResponse(BaseModel):
+    success: bool
+    query: str
+    response: str
+    model: str
+    tokens_used: Dict[str, int]
+    cost: float
     error: Optional[str] = None
 
 def convert_numpy_types(obj):
@@ -85,6 +110,9 @@ async def root():
         "version": "1.0.0",
         "endpoints": {
             "/detect": "POST - Detect confabulation for a given query",
+            "/detect/detailed": "POST - Detect confabulation with detailed results",
+            "/generate": "POST - Generate response using OpenAI directly",
+            "/generate/deep-research": "POST - Generate response using OpenAI deep research",
             "/health": "GET - Health check endpoint"
         }
     }
@@ -93,6 +121,64 @@ async def root():
 async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "message": "Confabulation Detection API is running"}
+
+@app.post("/generate", response_model=GenerateResponse)
+async def generate_response(request: GenerateRequest):
+    """
+    Generate a response directly using OpenAI client
+    
+    Args:
+        request: GenerateRequest containing query, model, temperature, and max_tokens
+        
+    Returns:
+        GenerateResponse with the generated response and token usage information
+    """
+    try:
+        logger.info(f"Received generate request for query: {request.query}")
+        
+        # Validate input
+        if not request.query.strip():
+            raise HTTPException(status_code=400, detail="Query cannot be empty")
+        
+        if request.temperature is not None and not 0.0 <= request.temperature <= 2.0:
+            raise HTTPException(status_code=400, detail="Temperature must be between 0.0 and 2.0")
+        
+        if request.max_tokens is not None and request.max_tokens <= 0:
+            raise HTTPException(status_code=400, detail="Max tokens must be positive")
+        
+        # Initialize token tracker and OpenAI client
+        token_tracker = TokenTracker()
+        openai_client = OpenAIClient(token_tracker)
+        
+        # Generate response
+        response = await openai_client.chat_completion(
+            prompt=request.query,
+            model=request.model,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens
+        )
+        
+        # Get token usage and cost information
+        token_breakdown = token_tracker.get_detailed_breakdown()
+        
+        logger.info(f"Generated response for query: {request.query}")
+        logger.info(f"Tokens used: {token_breakdown['totals']['total_tokens']}, Cost: ${token_breakdown['total_cost']:.4f}")
+        
+        return GenerateResponse(
+            success=True,
+            query=request.query,
+            response=response,
+            model=request.model,
+            tokens_used=token_breakdown['totals'],
+            cost=token_breakdown['total_cost']
+        )
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions
+        raise
+    except Exception as e:
+        logger.error(f"Error generating response: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 @app.post("/detect", response_model=ConfabulationResponse)
 async def detect_confabulation_endpoint(request: ConfabulationRequest):
