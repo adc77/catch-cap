@@ -153,6 +153,9 @@ class OpenAIClient:
         The web answer is:
         {web_answer}
         Give a reasoning why the responses are hallucinated or confabulated.
+        Do not mention responses and web search in your response just give a reasoning why the responses are hallucinated or confabulated.
+        Return only the reasoning without any additional text.
+        Compare all `responses` with the `web_answer` and return a single reasoning why the responses are hallucinated or confabulated.
         """
         try:
             response = await self.client.responses.create(

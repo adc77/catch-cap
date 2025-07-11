@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 # API base URL
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "http://localhost:7000"
 
 def call_generate_api(query):
     """Call the /generate endpoint"""

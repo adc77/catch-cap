@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # API base URL - make sure your FastAPI server is running on this port
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "http://localhost:7000"
 
 def call_detect_detailed_api(query: str) -> Dict[str, Any]:
     """Call the /detect/detailed endpoint"""
@@ -49,7 +49,7 @@ def display_chat_message(role: str, content: str, is_confabulated: bool = False)
 
 def display_confabulation_details(detection_data: Dict[str, Any]):
     """Display detailed confabulation analysis in an expandable section"""
-    with st.expander("🔍 Detailed Confabulation Analysis", expanded=False):
+    with st.expander("Detailed Confabulation Analysis", expanded=False):
         col1, col2 = st.columns(2)
         
         with col1:
