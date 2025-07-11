@@ -103,7 +103,7 @@ async def detect_confabulation(prompt, entropy_threshold=0.3):
     if not is_confident:
         # High entropy = low confidence = potential confabulation
         confabulation_detected = True
-        analysis_result = "HIGH_ENTROPY_CONFABULATION"
+        analysis_result = "HIGH_ENTROPY_CONFABULATION_DETECTED"
         comparison_result = "Model shows low confidence (high entropy), indicating potential confabulation"
     else:
         # Low entropy = high confidence, need to check accuracy
@@ -112,13 +112,19 @@ async def detect_confabulation(prompt, entropy_threshold=0.3):
         
         if is_consistent:
             confabulation_detected = False
-            analysis_result = "NO_CONFABULATION"
+            analysis_result = "NO_CONFABULATION_DETECTED"
             comparison_result = f"Model responses are consistent with web search. {comparison_details}"
         else:
             confabulation_detected = True
-            analysis_result = "CONFIDENT_BUT_WRONG_CONFABULATION"
+            analysis_result = "CONFIDENT_BUT_WRONG_RESPONSE_CONFABULATION_DETECTED"
             comparison_result = f"Model is confident but wrong compared to web search. {comparison_details}"
-    
+
+    logger.info("Reasoning for hallucination")
+    reasoning = await openai_client.compare_responses(
+        responses, 
+        web_answer, 
+        query=prompt
+    )
     # Compile results
     results = {
         "query": prompt,
@@ -132,7 +138,8 @@ async def detect_confabulation(prompt, entropy_threshold=0.3):
         "comparison_result": comparison_result,
         "similarity_matrix": similarity_matrix,
         "web_search_summary": web_results.get("summary", {}),
-        "total_tokens_used": token_tracker.get_total_tokens()
+        "total_tokens_used": token_tracker.get_total_tokens(),
+        "reasoning": reasoning
     }
     
     return results
@@ -171,6 +178,7 @@ def save_results(results, filename="confabulation_analysis.txt"):
             file.write(" ".join(f"{val:.4f}" for val in row) + "\n")
         
         file.write(f"\nTotal Tokens Used: {results['total_tokens_used']}\n")
+        file.write(f"Reasoning: {results['reasoning']}\n")
 
 def print_summary(results):
     """Print a summary of the analysis"""
@@ -185,6 +193,7 @@ def print_summary(results):
     print(f"\nModel Response Sample: {results['model_responses'][0][:150]}...")
     print(f"\nWeb Answer Sample: {results['web_answer'][:150]}...")
     print(f"\nTokens Used: {results['total_tokens_used']}")
+    print(f"\nReasoning: {results['reasoning']}")
 
 async def main():
     """Main function to run confabulation detection"""
@@ -192,9 +201,9 @@ async def main():
     # Test queries - mix of factual and potentially confabulated
     test_queries = [
         "How many R's are there in strawberry?",
-        "Give me some papers on the relationship between homeschooling and neuroplasticity?",
-        "Who won the 2025 Nobel Prize in Physics?",
-        "What color is the sky on Mars?"
+        # "Give me some papers on the relationship between homeschooling and neuroplasticity?",
+        # "Who won the 2025 Nobel Prize in Physics?",
+        # "What color is the sky on Mars?"
     ]
     
     for query in test_queries:

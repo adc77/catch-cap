@@ -225,7 +225,8 @@ async def detect_confabulation_endpoint(request: ConfabulationRequest):
             model_response_sample=str(results["model_responses"][0])[:150] + "..." if len(str(results["model_responses"][0])) > 150 else str(results["model_responses"][0]),
             web_answer_sample=str(results["web_answer"])[:150] + "..." if len(str(results["web_answer"])) > 150 else str(results["web_answer"]),
             total_tokens_used=total_tokens,
-            web_search_summary=results["web_search_summary"]
+            web_search_summary=results["web_search_summary"],
+            reasoning=str(results["reasoning"])
         )
         
         logger.info(f"Confabulation detection completed for query: {request.query}")
@@ -293,7 +294,8 @@ async def detect_confabulation_detailed(request: ConfabulationRequest):
             "web_answer": str(results["web_answer"]),
             "comparison_result": str(results["comparison_result"]),
             "web_search_summary": results["web_search_summary"],
-            "total_tokens_used": total_tokens
+            "total_tokens_used": total_tokens,
+            "reasoning": str(results["reasoning"])
         }
         
         logger.info(f"Detailed confabulation detection completed for query: {request.query}")

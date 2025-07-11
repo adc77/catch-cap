@@ -142,6 +142,28 @@ class OpenAIClient:
             logger.error(f"Error in generate_n_embeddings: {e}")
             raise
 
+    async def compare_responses(self, responses: List[str], web_answer: str, query: str) -> str:
+        """Compare responses with web answer."""
+        prompt = f"""
+        You are a helpful assistant that compares responses with web answer for the given query and give a reasoning why the responses are hallucinated or confabulated.
+        The query is:
+        {query}
+        The responses are:
+        {responses}
+        The web answer is:
+        {web_answer}
+        Give a reasoning why the responses are hallucinated or confabulated.
+        """
+        try:
+            response = await self.client.responses.create(
+                model="gpt-4.1-nano",
+                input=prompt,
+            )   
+            return response.output_text
+        except Exception as e:
+            logger.error(f"Error in compare_responses: {e}")
+            raise
+
 
 
 

@@ -61,16 +61,20 @@ def display_detection_results(detection_data):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("AI Model Response")
+        st.subheader("Initial Model Response")
         model_responses = detection_data.get("model_responses", [])
         if model_responses:
             for i, response in enumerate(model_responses, 1):
                 st.text_area(f"Response {i}:", value=response, height=100, disabled=True)
     
     with col2:
-        st.subheader("Web Search Result (Ground Truth)")
+        st.subheader("Web Search Result (Verified Answer)")
         web_answer = detection_data.get("web_answer", "No web answer available")
         st.text_area("Verified Answer:", value=web_answer, height=200, disabled=True)
+
+    st.subheader("Reasoning for Hallucination/Confabulation")
+    reasoning = detection_data.get("reasoning", "No reasoning available")
+    st.text_area("Reasoning:", value=reasoning, height=100, disabled=True)
     
     # Additional details
     st.subheader("Analysis Details")
@@ -129,43 +133,43 @@ def main():
                     "user": user_input,
                     "assistant": st.session_state.current_response,
                     "tokens": response_data.get("tokens_used", {}),
-                    "cost": response_data.get("cost", 0)
+                    # "cost": response_data.get("cost", 0)
                 })
             else:
                 st.error("Failed to generate response")
     
     # Display current conversation
     if st.session_state.current_query and st.session_state.current_response:
-        st.subheader("Current Conversation")
+        # st.subheader("Current Conversation")
         
         # User message
         st.write("**You:**")
         st.write(st.session_state.current_query)
         
         # Assistant response
-        st.write("**AI Assistant:**")
+        st.write("**Model Response:**")
         st.write(st.session_state.current_response)
         
         # Token usage info
         if st.session_state.messages:
             latest_message = st.session_state.messages[-1]
             tokens_used = latest_message.get("tokens", {})
-            cost = latest_message.get("cost", 0)
+            # cost = latest_message.get("cost", 0)
             
             if tokens_used:
-                st.caption(f"Tokens used: {tokens_used.get('total_tokens', 0)} | Cost: ${cost:.4f}")
+                st.caption(f"Tokens used: {tokens_used.get('total_tokens', 0)}")
         
         # Hallucination detection button
         st.markdown("---")
         
         col1, col2 = st.columns([1, 4])
         with col1:
-            detect_clicked = st.button("Check for Hallucinations", type="secondary")
+            detect_clicked = st.button("Check for Hallucination/Confabulation?", type="primary")
         
         if detect_clicked:
             st.session_state.show_detection = True
             
-            with st.spinner("Analyzing response for hallucinations..."):
+            with st.spinner("Analyzing response for hallucinations/Confabulation..."):
                 detection_data = call_detect_api(st.session_state.current_query)
                 
                 if detection_data:
@@ -175,7 +179,7 @@ def main():
         
         elif st.session_state.show_detection:
             # Re-run detection to show results
-            with st.spinner("Analyzing response for hallucinations..."):
+            with st.spinner("Analyzing response for hallucinations/Confabulation..."):
                 detection_data = call_detect_api(st.session_state.current_query)
                 
                 if detection_data:
@@ -190,13 +194,13 @@ def main():
             with st.expander(f"Conversation {len(st.session_state.messages) - i}"):
                 st.write("**You:**")
                 st.write(message["user"])
-                st.write("**AI Assistant:**")
+                st.write("**Model Response:**")
                 st.write(message["assistant"])
                 
                 tokens = message.get("tokens", {})
-                cost = message.get("cost", 0)
+                # cost = message.get("cost", 0)
                 if tokens:
-                    st.caption(f"Tokens: {tokens.get('total_tokens', 0)} | Cost: ${cost:.4f}")
+                    st.caption(f"Tokens: {tokens.get('total_tokens', 0)}")
     
     # Clear conversation button
     if st.session_state.messages:
