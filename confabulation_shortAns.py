@@ -252,8 +252,8 @@ async def main():
     
     # Test queries
     test_queries = [
-        # "How many R's are there in strawberry?",
-        "Can an LLP give a loan to a private limited company, if the directors are the same?"
+        "How many R's are there in strawberry?",
+        # "Can an LLP give a loan to a private limited company, if the directors are the same?"
     ]
     
     for query in test_queries:

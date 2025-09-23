@@ -1,0 +1,63 @@
+CONFABULATION DETECTION ANALYSIS
+==================================================
+
+Query: whats greater 9.9 or 9.11 ?
+Entropy Score: 0.0000
+Entropy Threshold: 0.3000
+Model Confident: True
+Confabulation Detected: True
+Analysis Result: CONFIDENT_BUT_WRONG_RESPONSE_CONFABULATION_DETECTED
+
+COMPARISON ANALYSIS:
+Model is confident but wrong compared to web search. INCONSISTENT
+
+MODEL RESPONSES:
+[1] 9.9 is greater than 9.11.
+
+Even though 9.11 has more digits, when comparing decimal numbers:
+
+- 9.9 is the same as 9.90 (adding a zero doesn't change the value).
+- 9.90 is greater than 9.11.
+
+So, 9.9 > 9.11.
+
+[2] 9.9 is greater than 9.11.
+
+Here's why:  
+- 9.9 can be thought of as 9.90 (adding a zero does not change its value).  
+- 9.90 is greater than 9.11 because 90 (hundredths) is greater than 11 (hundredths).
+
+So, 9.9 > 9.11.
+
+[3] 9.9 is greater than 9.11.
+
+Explanation:  
+- 9.9 can be thought of as 9.90 (adding a zero doesn't change its value).  
+- 9.90 is greater than 9.11 because 90 (after the decimal) is greater than 11.  
+
+So, 9.9 > 9.11.
+
+[4] 9.9 is greater than 9.11.
+
+To compare them:
+- 9.9 can be written as 9.90
+- 9.11 is 9.11
+
+Since 9.90 > 9.11, 9.9 is greater.
+
+WEB SEARCH ANSWER:
+9.11 is greater than 9.9. This is because in decimal notation, the comparison is based on the value of the digits from left to right. The number 9.11 has a "1" in the hundredths place, making it slightly larger than 9.9, which effectively has a "0" in that position. Multiple sources within the web content confirm that 9.11 is larger than 9.9, even though some AI models may occasionally misjudge this due to parsing or prompt issues.
+
+WEB SEARCH SUMMARY:
+URLs analyzed: 5
+Relevant results: 3
+Success rate: 60.0%
+
+SIMILARITY MATRIX:
+1.0000 1.0000 1.0000 1.0000
+1.0000 1.0000 1.0000 1.0000
+1.0000 1.0000 1.0000 1.0000
+1.0000 1.0000 1.0000 1.0000
+
+Total Tokens Used: {'total_input_tokens': 0, 'total_output_tokens': 0, 'total_tokens': 0}
+Reasoning: The responses are hallucinated or confabulated because they incorrectly assert that 9.9 is greater than 9.11, despite the actual numerical comparison showing that 9.11 is larger. The errors stem from a misunderstanding of decimal place values, specifically the significance of digits in the hundredths place. They mistakenly treat 9.9 as equivalent to 9.90 and then argue that 9.90 is greater than 9.11 based on the last two digits, which is incorrect. The web answer correctly recognizes that 9.11, with a 1 in the hundredths place, exceeds 9.9, which effectively has a 0 in that position. Hence, the responses' reasoning is flawed and does not align with standard decimal comparison rules, indicating they are confabulated.

@@ -1,0 +1,6 @@
+update sem_ent.py -> add a wstf_trust_score (1-entropy_score) 
+and also compute the time taken for the evaluation and all the scoring and to give final response for each query!
+
+
+create a script for TLM and run on the 10 test queries -> log trustworthiness score and the explanation -> generate detailed logs for each query response, its trustworthiness score and explanation
+also compute the time taken for each query and log
