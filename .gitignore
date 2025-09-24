@@ -6,3 +6,6 @@ __pycache__/
 .git
 .vscode
 .DS_Store
+catch_cap.egg-info/
+dist/
+pyproject.toml
