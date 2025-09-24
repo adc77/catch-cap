@@ -1,0 +1,33 @@
+CONFABULATION DETECTION ANALYSIS
+==================================================
+
+Query: How many R's are there in strawberry?
+Shannon Entropy: 1.0000
+Entropy Threshold: 1.0000
+Model Uncertain: False
+Confabulation Detected: True
+Analysis Result: MODEL_CERTAIN_BUT_WRONG_ANSWER-CONFABULATION_DETECTED
+Number of Clusters: 2
+Cluster Probabilities: [0.5 0.5]
+
+COMPARISON ANALYSIS:
+INCONSISTENT
+
+MODEL RESPONSES:
+[1] Cluster 0: There are 2 R's in the word "strawberry."
+
+[2] Cluster 0: There are 2 R's in the word "strawberry."
+
+[3] Cluster 1: There are 2 R's in the word "strawberry."
+
+[4] Cluster 1: There are 2 R's in the word "strawberry."
+
+WEB SEARCH ANSWER:
+The word "strawberry" contains three 'r' characters.
+
+WEB SEARCH SUMMARY:
+URLs analyzed: 5
+Relevant results: 2
+Success rate: 40.0%
+
+Total Tokens Used: {'total_input_tokens': 0, 'total_output_tokens': 0, 'total_tokens': 0}

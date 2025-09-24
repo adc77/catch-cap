@@ -664,7 +664,7 @@ class FastLongFormConfabulationDetector:
         """Compute risk score based on paragraph entropy"""
         # Normalize entropy to risk score (0-1 scale)
         # Higher entropy = higher risk
-        risk_score = min(paragraph_entropy / 2.0, 1.0)  # Assuming max reasonable entropy is 2.0
+        risk_score = min(paragraph_entropy / 0.3, 1.0)  # Assuming max reasonable entropy is 0.3
         return risk_score
     
     async def compare_with_web_search(self, paragraph: str, claims: List[str]) -> Dict[str, Any]:

@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class SearXNGClient:
     """Client for SearXNG web search."""
     
-    def __init__(self, searxng_url: str = "https://2wvev6223syg.share.zrok.io/"):
+    def __init__(self, searxng_url: str = "https://3zvqq5x2pyyz.share.zrok.io/"):
         self.searxng_url = searxng_url
         self.session = requests.Session()
         self.session.headers.update({

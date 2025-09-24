@@ -16,3 +16,8 @@ uvicorn
 fastapi
 python-multipart
 streamlit
+
+cleanlab-tlm
+scikit-learn
+
+tavily-python

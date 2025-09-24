@@ -108,7 +108,7 @@ class OpenAIClient:
             logger.error(f"Error in deep research: {e}")
             raise
 
-    async def generate_n_samples(self, prompt: str, n_samples: int, model: str = "gpt-4.1-nano", temperature: float = 1.0, top_p: float = 0.9) -> List[str]:
+    async def generate_n_samples(self, prompt: str, n_samples: int, model: str = "gpt-4.1-mini", temperature: float = 1.0, top_p: float = 0.9) -> List[str]:
         """Generate n samples of text."""
         try:
             responses = []

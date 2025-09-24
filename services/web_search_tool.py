@@ -30,7 +30,7 @@ class IntelligentWebSearchTool:
     """
     
     def __init__(self, 
-                 searxng_url: str = "https://2wvev6223syg.share.zrok.io/",
+                 searxng_url: str = "https://3zvqq5x2pyyz.share.zrok.io/",
                  relevance_threshold: float = 0.6,
                  max_concurrent: int = 5,
                  initial_chars: int = 2000):

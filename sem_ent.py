@@ -200,10 +200,12 @@ async def main():
     
     # Test queries - mix of factual and potentially confabulated
     test_queries = [
-        "How many R's are there in strawberry?",
+        # "Emil is 19 years old now. When he turns 24, he will be half the age of his dad but twice as old as his brother. What is the sum of the ages of his dad and his brother now?",
+        # "How many R's are there in strawberry?",
         # "Give me some papers on the relationship between homeschooling and neuroplasticity?",
         # "Who won the 2025 Nobel Prize in Physics?",
-        # "What color is the sky on Mars?"
+        # "What color is the sky on Mars?",
+        "whats greater 9.9 or 9.11 ?"
     ]
     
     for query in test_queries:
