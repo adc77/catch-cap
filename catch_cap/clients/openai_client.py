@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Iterable, List, Optional, Sequence
 
 from openai import AsyncOpenAI
@@ -15,6 +16,8 @@ class OpenAIModelClient(BaseModelClient):
     """Client wrapper around OpenAI async SDK."""
 
     def __init__(self, api_key: Optional[str] = None):
+        if api_key is None:
+            api_key = os.getenv('OPENAI_API_KEY')
         self.client = AsyncOpenAI(api_key=api_key)
 
     async def generate(

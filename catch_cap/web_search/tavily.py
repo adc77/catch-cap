@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Iterable, Optional
 
 from tavily import AsyncTavilyClient
@@ -12,6 +13,8 @@ class TavilySearch(BaseWebSearch):
     """Adapter for Tavily search API."""
 
     def __init__(self, api_key: Optional[str] = None):
+        if api_key is None:
+            api_key = os.getenv('TAVILY_API_KEY')
         self.client = AsyncTavilyClient(api_key)
 
     async def search(

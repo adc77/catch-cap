@@ -2,6 +2,11 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
 from ..clients.base import BaseModelClient
 from ..clients.gemini_client import GeminiModelClient
 from ..clients.groq_client import GroqModelClient
@@ -28,7 +33,11 @@ PROVIDER_CLIENTS = {
 class CatchCap:
     """Main entry point for confabulation detection."""
 
-    def __init__(self, config: CatchCapConfig):
+    def __init__(self, config: CatchCapConfig, auto_load_dotenv: bool = True):
+        # Automatically load .env file if available and not disabled
+        if auto_load_dotenv and load_dotenv is not None:
+            load_dotenv()
+        
         self.config = config
         self.generator_client = self._build_client(config.generator)
         self.embedding_client = self._build_client(

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Iterable, List, Optional, Sequence
 
 from google import genai
@@ -16,6 +17,9 @@ class GeminiModelClient(BaseModelClient):
     """Client wrapper around Gemini async SDK."""
 
     def __init__(self, api_key: Optional[str] = None):
+        if api_key is None:
+            # Try GEMINI_API_KEY first, then GOOGLE_API_KEY as fallback
+            api_key = os.getenv('GEMINI_API_KEY') or os.getenv('GOOGLE_API_KEY')
         self.client = genai.Client(api_key=api_key)
 
     async def generate(

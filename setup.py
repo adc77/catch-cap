@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="catch-cap",
-    version="0.1.0",
+    version="0.1.4",
     author="axon_dendrite",
     author_email="amandogra2016@gmail.com",
     description="Detect and reduce LLM hallucinations with semantic entropy, log-probability analysis, and web grounding",

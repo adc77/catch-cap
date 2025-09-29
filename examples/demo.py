@@ -13,20 +13,19 @@ from catch_cap import (
 )
 from dotenv import load_dotenv
 
-
 async def main():
     load_dotenv()
     config = CatchCapConfig(
-        generator=ModelConfig(provider="openai", name="gpt-4.1-mini", temperature=0.6),
+        generator=ModelConfig(provider="gemini", name="gemini-2.0-flash", temperature=0.6),
         semantic_entropy=SemanticEntropyConfig(n_responses=4, threshold=0.5),
         logprobs=LogProbConfig(enabled=False, min_logprob=-5.0, fraction_threshold=0.15),
         web_search=WebSearchConfig(
             provider="tavily", 
             max_results=5,
-            synthesizer_model=ModelConfig(provider="openai", name="gpt-4.1-nano", temperature=0.1)
+            synthesizer_model=ModelConfig(provider="openai", name="gpt-4.1", temperature=0.1)
         ),
         judge=JudgeConfig(
-            model=ModelConfig(provider="openai", name="gpt-4.1-mini")
+            model=ModelConfig(provider="openai", name="gpt-4.1")
         ),
     )
     detector = CatchCap(config)
@@ -49,6 +48,7 @@ async def main():
     print("Confabulation detected:", result.confabulation_detected)
     if result.corrected_answer:
         print("Corrected answer:", result.corrected_answer)
+    print("===========================")
 
 
 asyncio.run(main())

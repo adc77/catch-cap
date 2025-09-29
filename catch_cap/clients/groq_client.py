@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Iterable, List, Optional, Sequence
 
 from groq import AsyncGroq
@@ -15,6 +16,8 @@ class GroqModelClient(BaseModelClient):
     """Client wrapper around Groq async SDK."""
 
     def __init__(self, api_key: Optional[str] = None):
+        if api_key is None:
+            api_key = os.getenv('GROQ_API_KEY')
         self.client = AsyncGroq(api_key=api_key)
 
     async def generate(
@@ -30,7 +33,7 @@ class GroqModelClient(BaseModelClient):
         model_config: Optional[ModelConfig] = None,
     ) -> Sequence[GenerationResult]:
         params = {
-            "model": model_config.name if model_config else "mixtral-8x7b-32768",
+            "model": model_config.name if model_config else "llama-3.3-70b-versatile",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": temperature,
             "top_p": top_p,
