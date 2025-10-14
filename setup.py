@@ -11,7 +11,7 @@ setup(
     description="Detect and reduce LLM hallucinations with semantic entropy, log-probability analysis, and web grounding",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/adw777/catch-cap",
+    url="https://github.com/adc77/catch-cap.git",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -9,3 +9,5 @@ __pycache__/
 catch_cap.egg-info/
 dist/
 pyproject.toml
+CLAUDE.md
+.claude/
