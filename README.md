@@ -27,9 +27,9 @@ GROQ_API_KEY=your-groq-key
 TAVILY_API_KEY=your-tavily-key
 ```
 
-## What's New in v0.2.0
+## What's New in v0.2.2
 
-**catch-cap v0.2.0** is now available – a major update transforming catch-cap into a production-ready hallucination detection middleware. This release brings reliability, speed, and better insight for anyone working with LLM outputs.
+**catch-cap v0.2.2** is now available – a major update transforming catch-cap into a production-ready hallucination detection middleware. This release brings reliability, speed, and better insight for anyone working with LLM outputs.
 
 **Highlights:**
 - **Confidence Scoring:** Each detection gives a 0–1 confidence score and a human-readable level ("High", "Medium", "Low").
@@ -40,7 +40,7 @@ TAVILY_API_KEY=your-tavily-key
 - **10x Faster Embeddings:** Embeddings are batched for performance and cost-efficiency.
 - **Extensive Metadata:** Results include reasons, detection time, and methods used.
 
-For full details, new configuration options, and migration guidance, **see the [v0.2.0 Release Notes](V0.2.0_RELEASE_NOTES.md)**.
+For full details, new configuration options, and migration guidance, **see the [v0.2.2 Release Notes](V0.2.2_RELEASE_NOTES.md)**.
 
 
 ## Quick Start

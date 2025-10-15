@@ -1,5 +1,5 @@
 """
-Example showcasing new features in v0.2.0.
+Example showcasing new features in v0.2.2.
 
 Demonstrates:
 - Confidence scoring
@@ -25,7 +25,7 @@ async def main():
     # Enable debug logging to see detailed pipeline execution
     setup_logger(level=logging.DEBUG)
 
-    # Configure with new v0.2.0 features
+    # Configure with new v0.2.2 features
     config = CatchCapConfig(
         generator=ModelConfig(
             provider="openai",
@@ -54,7 +54,7 @@ async def main():
     query = "How many r's are in the word strawberry?"
 
     print("="*60)
-    print("Running hallucination detection with v0.2.0 features...")
+    print("Running hallucination detection with v0.2.2 features...")
     print("="*60)
 
     result = await detector.run(query)
@@ -66,7 +66,7 @@ async def main():
     print(f"\nQuery: {result.query}")
     print(f"Model Response: {result.responses[0].text}")
 
-    # NEW in v0.2.0: Confidence scoring
+    # NEW in v0.2.2: Confidence scoring
     print(f"\n[CONFIDENCE ANALYSIS]")
     print(f"  Confidence Level: {result.metadata.get('confidence_level')}")
     print(f"  Confidence Score: {result.metadata.get('confidence_score')}")
@@ -76,7 +76,7 @@ async def main():
     print(f"  Confabulation Detected: {result.confabulation_detected}")
     print(f"  Reasons: {result.metadata.get('reasons')}")
 
-    # NEW in v0.2.0: Detection methods used
+    # NEW in v0.2.2: Detection methods used
     print(f"\n[DETECTION METHODS USED]")
     for method in result.metadata.get('detection_methods', []):
         print(f"  ✓ {method}")
@@ -109,7 +109,7 @@ async def main():
         print(f"\n[CORRECTED ANSWER]")
         print(f"  {result.corrected_answer}")
 
-    # NEW in v0.2.0: Timing and error tracking
+    # NEW in v0.2.2: Timing and error tracking
     print(f"\n[PERFORMANCE]")
     print(f"  Detection Time: {result.metadata.get('detection_time_seconds')}s")
 
