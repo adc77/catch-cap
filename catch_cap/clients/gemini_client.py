@@ -62,13 +62,20 @@ class GeminiModelClient(BaseModelClient):
         return results
 
     async def embed(self, texts: Iterable[str], *, model: str) -> List[List[float]]:
-        embeddings: List[List[float]] = []
-        for text in texts:
-            response = await self.client.aio.models.embed_content(
-                model=model,
-                contents=[text],
-            )
-            embeddings.append(response.embeddings[0].values)
-        return embeddings
+        """
+        Generate embeddings for multiple texts.
+        Batches requests for improved performance.
+        """
+        texts_list = list(texts)
+        if not texts_list:
+            return []
+
+        # Gemini supports batch embedding
+        response = await self.client.aio.models.embed_content(
+            model=model,
+            contents=texts_list,
+        )
+
+        return [emb.values for emb in response.embeddings]
 
 

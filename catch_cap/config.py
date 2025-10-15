@@ -78,5 +78,6 @@ class CatchCapConfig:
     web_search: WebSearchConfig = field(default_factory=WebSearchConfig)
     judge: Optional[JudgeConfig] = None
     enable_correction: bool = True
+    rate_limit_rpm: Optional[int] = None  # Requests per minute (None = no limit)
 
 

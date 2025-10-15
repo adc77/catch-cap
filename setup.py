@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="catch-cap",
-    version="0.1.4",
+    version="0.2.0",
     author="axon_dendrite",
     author_email="amandogra2016@gmail.com",
     description="Detect and reduce LLM hallucinations with semantic entropy, log-probability analysis, and web grounding",
@@ -33,11 +33,13 @@ setup(
         "numpy>=1.20.0",
         "aiohttp>=3.8.0",
         "python-dotenv>=0.19.0",
+        "tenacity>=8.0.0",
+        "aiolimiter>=1.1.0",
     ],
     extras_require={
         "dev": [
-            "pytest>=6.0",
-            "pytest-asyncio>=0.18.0",
+            "pytest>=7.0.0",
+            "pytest-asyncio>=0.21.0",
             "black",
             "flake8",
             "mypy",

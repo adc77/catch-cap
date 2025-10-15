@@ -48,15 +48,33 @@ class LLMJudge(BaseJudge):
             raise JudgeError("Judge model returned no output")
 
         verdict_text = generations[0].text.strip()
-        normalized = verdict_text.upper()
-        
-        # Fix: Check INCONSISTENT first since it contains CONSISTENT
-        if "INCONSISTENT" in normalized:
-            label = "INCONSISTENT"
-        elif "CONSISTENT" in normalized:
-            label = "CONSISTENT"
-        else:
-            label = "UNKNOWN"
-            
+        label = self._extract_verdict(verdict_text)
+
         is_consistent = label == "CONSISTENT"
         return JudgeVerdict(verdict=label, raw_response=verdict_text, is_consistent=is_consistent)
+
+    def _extract_verdict(self, text: str) -> str:
+        """Extract verdict with robust parsing to handle edge cases."""
+        import re
+
+        normalized = text.upper().strip()
+
+        # Try exact match first (most reliable)
+        if normalized in self.config.acceptable_labels:
+            return normalized
+
+        # Try regex for word boundaries (prevents partial matches)
+        # Check INCONSISTENT first since it contains CONSISTENT
+        if re.search(r'\bINCONSISTENT\b', normalized):
+            return "INCONSISTENT"
+        if re.search(r'\bCONSISTENT\b', normalized):
+            return "CONSISTENT"
+
+        # Fallback: substring match in order of specificity
+        if "INCONSISTENT" in normalized:
+            return "INCONSISTENT"
+        if "CONSISTENT" in normalized:
+            return "CONSISTENT"
+
+        # If still no match, return UNKNOWN
+        return "UNKNOWN"

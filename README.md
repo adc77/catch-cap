@@ -27,6 +27,22 @@ GROQ_API_KEY=your-groq-key
 TAVILY_API_KEY=your-tavily-key
 ```
 
+## What's New in v0.2.0
+
+**catch-cap v0.2.0** is now available – a major update transforming catch-cap into a production-ready hallucination detection middleware. This release brings reliability, speed, and better insight for anyone working with LLM outputs.
+
+**Highlights:**
+- **Confidence Scoring:** Each detection gives a 0–1 confidence score and a human-readable level ("High", "Medium", "Low").
+- **Rate Limiting:** Throttle model/API usage to prevent overages and stay within quotas.
+- **Structured Logging:** New logging for full pipeline observability and debug support.
+- **Graceful Degradation:** If a component fails (e.g., web search times out), detection keeps going using available data.
+- **Automatic Retries:** All API/network calls retry on transient errors, with exponential backoff.
+- **10x Faster Embeddings:** Embeddings are batched for performance and cost-efficiency.
+- **Extensive Metadata:** Results include reasons, detection time, and methods used.
+
+For full details, new configuration options, and migration guidance, **see the [v0.2.0 Release Notes](V0.2.0_RELEASE_NOTES.md)**.
+
+
 ## Quick Start
 
 ```python
